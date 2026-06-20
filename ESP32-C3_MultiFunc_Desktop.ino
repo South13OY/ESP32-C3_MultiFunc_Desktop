@@ -149,14 +149,14 @@ const int DINO_H = 10;
 int obstacleX = 128;
 const int obstacleW = 5;
 const int obstacleH = 10;
-int obstacleSpeed = 2;                 // 新增，动态速度
-const int OBSTACLE_BASE_SPEED = 2;     // 新增，基础速度
-const int SPEED_DIV = 5;              // 新增，每5分速度+1
+int obstacleSpeed = 2;                 // 动态速度
+const int OBSTACLE_BASE_SPEED = 2;     // 基础速度
+const int SPEED_DIV = 5;              // 每5分速度+1
 unsigned long lastGameUpdate = 0;
 const int GAME_FRAME_MS = 20;
 
-int score = 0;                        // 新增，积分
-bool obstaclePassed = false;          // 新增，计分标记
+int score = 0;                        // 积分
+bool obstaclePassed = false;          // 计分标记
 int lastScore = 0;   // 用于死亡界面显示，不受清空影响
 int difficulty = 1;   // 难度 1~5
 bool gameModeJustEntered = false;   // 标记是否刚进入游戏，用于防连击
@@ -264,7 +264,7 @@ void startAPConfigMode() {
     do {
         u8g2.setFont(u8g2_font_wqy12_t_gb2312);
         u8g2.drawUTF8(0, 12, "请连接手机热点:");
-        u8g2.drawUTF8(0, 30, "ESP32_Config");       // 简化命名
+        u8g2.drawUTF8(0, 30, "ESP32_Config");       // 开发板热点命名
         u8g2.drawUTF8(0, 48, "访问任意网页设置");
     } while (u8g2.nextPage());
 
@@ -583,7 +583,7 @@ void handleNavigation() {
                         currentMode = GAME_MODE;
                         gameState = GS_DIFFICULTY;
                         difficulty = 1;
-                        gameModeJustEntered = true;    // ★ 标记刚进入
+                        gameModeJustEntered = true;
                         delay(250);
                         break;
                     case 4:
@@ -618,7 +618,7 @@ void drawMenu() {
     const int gap = 6;
     const int itemWidth = iconSize + gap;
     const int centerX = (128 - iconSize) / 2;
-    const int baseY = (64 - iconSize) / 2 + 2;   // 已下移2像素
+    const int baseY = (64 - iconSize) / 2 + 2;
 
     // 计算滚动偏移（像素）
     float scrollPos;
@@ -897,7 +897,7 @@ void updateHealth() {
     if (samples == 0) return;
 
     static uint32_t irBuf[100];
-    static uint32_t redBuf[100];          // ⬅️ 补上红光缓冲区
+    static uint32_t redBuf[100];          // 补上红光缓冲区
     static int bufIdx = 0;
     static uint32_t sampleCounter = 0;
     static uint32_t lastPeakTime = 0;
@@ -909,7 +909,7 @@ void updateHealth() {
         if (ir < FINGER_DETECT_THRESHOLD) continue;
 
         irBuf[bufIdx] = ir;
-        redBuf[bufIdx] = red;             // ⬅️ 同时保存红光数据
+        redBuf[bufIdx] = red;             // 同时保存红光数据
         bufIdx++;
 
         if (bufIdx >= 100) {
@@ -979,7 +979,7 @@ void updateHealth() {
 
             sampleCounter += 100;
 
-            // 6. 血氧（使用原始算法，现在 redBuf 可用）
+            // 6. 血氧
             int32_t spo2Val, hrVal;
             int8_t spo2Valid, hrValid;
             maxim_heart_rate_and_oxygen_saturation(irBuf, 100, redBuf,
